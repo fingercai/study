@@ -1,0 +1,88 @@
+{% extends "layout.html" %} {% block body %}
+<div class="container-fluid">
+  <div class="body advert">
+    <!-- 面包屑 -->
+    <ol class="breadcrumb">
+      <li><a href="javascript:;">广告管理</a></li>
+      <li class="active">添加广告</li>
+    </ol>
+    <div class="advert-add">
+      <form action="/advert/add" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="" class="col-md-3 control-label">标题</label>
+          <div class="col-md-5">
+            <input type="text" required class="form-control input-sm" name="title" placeholder="填写广告标题">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-md-3 control-label">图片</label>
+          <div class="col-md-5">
+            <input type="file" required id="file" class="form-control input-sm" name="image" placeholder="填写广告图片">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-md-3 control-label">链接</label>
+          <div class="col-md-5">
+            <input type="text" required class="form-control input-sm" name="link" placeholder="填写广告链接">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-md-3 control-label">开始时间</label>
+          <div class="col-md-5">
+            <input type="text" required class="form-control input-sm" name="start_time" placeholder="填写开始时间">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-md-3 control-label">结束时间</label>
+          <div class="col-md-5">
+            <input type="text" required class="form-control input-sm" name="end_time" placeholder="填写结束时间">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-8">
+            <input type="submit" class="btn btn-success btn-sm pull-right" value="保存">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+
+
+// XMLHTTPRequest 1
+// XMLHTTPRequest 2
+$('form').on('submit', function (e) {
+  // var formData = new FormData()
+  // formData.append('name', 'Jack')
+  // formData.append('age', '18')
+  // formData.append('file', document.getElementById('file').files[0])
+
+  // var xhr = new XMLHttpRequest()
+  // xhr.open('post', '/advert/add')
+  // xhr.send(formData)
+  // return false
+  $.ajax({
+    url: $(this).attr('action'),
+    type: $(this).attr('method'),
+    data: new FormData($(this)[0]),
+    // 当你的 data 选项被提交为一个 FormData 对象的时候，一定要将 processData 配置为 false
+    // 否则 jQuery 的异步提交不生效
+    processData: false,  // tell jQuery not to process the data
+    // 当提交一个 FormData 对象的时候，记得要将 contentType 设置为 false
+    // 否则 jQuery 会默认把 Content-Type 设置为 application/x-www-form-urlencoded; charset=UTF-8
+    contentType: false,  // tell jQuery not to set contentType
+    success: function (data) {
+      if (data.err_code === 0) {
+        window.location.href = '/advert'
+      }
+    }
+  })
+  return false
+})
+</script>
+{% endblock %}
